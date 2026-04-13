@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -8,43 +8,90 @@
   </head>
   <body>
     <main class="page">
-      <article data-testid="test-todo-card" class="todo-card" role="region" aria-label="Todo task card">
+      <article
+        data-testid="test-todo-card"
+        class="todo-card"
+        role="region"
+        aria-label="Todo task card"
+      >
         <header class="todo-header">
-          <h2 data-testid="test-todo-title" id="todo-title">Prepare Stage 0 frontend submission</h2>
+          <h2 data-testid="test-todo-title" id="todo-title">
+            Build a clean, testable todo card
+          </h2>
           <p data-testid="test-todo-description">
-            Build an accessible and testable task card with responsive layout and friendly deadline messaging.
+            Create a responsive task card with accessible controls, clear
+            status, and a live due-time hint.
           </p>
         </header>
 
         <section class="todo-meta" aria-label="Task metadata">
           <p class="meta-row">
             <span class="meta-label">Priority</span>
-            <span data-testid="test-todo-priority" class="badge badge-priority high" aria-label="Priority High">High</span>
+            <span
+              data-testid="test-todo-priority"
+              class="badge badge-priority high"
+              aria-label="Priority High"
+              >High</span
+            >
           </p>
           <p class="meta-row">
             <span class="meta-label">Status</span>
-            <span data-testid="test-todo-status" class="badge badge-status" aria-live="polite">In Progress</span>
+            <span
+              data-testid="test-todo-status"
+              class="badge badge-status"
+              aria-live="polite"
+              >In Progress</span
+            >
           </p>
         </section>
 
         <section class="todo-time" aria-label="Task due information">
           <p>
-            <time data-testid="test-todo-due-date" id="todo-due-date" datetime="2026-04-16T18:00:00Z">Due Apr 16, 2026</time>
+            <time
+              data-testid="test-todo-due-date"
+              id="todo-due-date"
+              datetime="2026-04-16T18:00:00Z"
+              >Due Apr 16, 2026</time
+            >
           </p>
           <p>
-            <time data-testid="test-todo-time-remaining" id="todo-time-remaining" aria-live="polite">Due soon</time>
+            <time
+              data-testid="test-todo-time-remaining"
+              id="todo-time-remaining"
+              aria-live="polite"
+              >Due soon</time
+            >
           </p>
         </section>
 
         <section class="todo-controls" aria-label="Task controls">
           <div class="checkbox-wrap">
-            <input data-testid="test-todo-complete-toggle" type="checkbox" id="task-complete" aria-labelledby="task-complete-label todo-title" />
-            <label id="task-complete-label" for="task-complete">Mark as complete</label>
+            <input
+              data-testid="test-todo-complete-toggle"
+              type="checkbox"
+              id="task-complete"
+              aria-labelledby="task-complete-label todo-title"
+            />
+            <label id="task-complete-label" for="task-complete"
+              >Mark as complete</label
+            >
           </div>
 
           <div class="button-group">
-            <button data-testid="test-todo-edit-button" type="button" aria-label="Edit task">Edit</button>
-            <button data-testid="test-todo-delete-button" type="button" aria-label="Delete task">Delete</button>
+            <button
+              data-testid="test-todo-edit-button"
+              type="button"
+              aria-label="Edit task"
+            >
+              Edit
+            </button>
+            <button
+              data-testid="test-todo-delete-button"
+              type="button"
+              aria-label="Delete task"
+            >
+              Delete
+            </button>
           </div>
         </section>
 

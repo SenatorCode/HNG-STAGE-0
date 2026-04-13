@@ -4,7 +4,13 @@
 
 body {
   margin: 0;
-  font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+  font-family:
+    Inter,
+    system-ui,
+    -apple-system,
+    Segoe UI,
+    Roboto,
+    sans-serif;
   background: #f5f7fb;
   color: #1f2937;
 }
@@ -13,7 +19,7 @@ body {
   min-height: 100vh;
   padding: 1rem;
   display: grid;
-  place-items: start center;
+  place-items: center center;
 }
 
 .todo-card {
