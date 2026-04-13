@@ -91,7 +91,7 @@ completeToggle.addEventListener("change", (event) => {
 });
 
 editButton.addEventListener("click", () => {
-  console.log("edit clicked");
+  alert("Edit clicked");
 });
 
 deleteButton.addEventListener("click", () => {
