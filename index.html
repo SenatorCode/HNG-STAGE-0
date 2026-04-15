@@ -18,21 +18,24 @@
           <h2 data-testid="test-todo-title" id="todo-title">
             Build a clean, testable todo card
           </h2>
-          <p data-testid="test-todo-description">
-            Create a responsive task card with accessible controls, clear
-            status, and a live due-time hint.
-          </p>
         </header>
 
         <section class="todo-meta" aria-label="Task metadata">
           <p class="meta-row">
             <span class="meta-label">Priority</span>
-            <span
-              data-testid="test-todo-priority"
-              class="badge badge-priority high"
-              aria-label="Priority High"
-              >High</span
-            >
+            <span class="priority-wrap">
+              <span
+                data-testid="test-todo-priority-indicator"
+                class="priority-indicator high"
+                aria-hidden="true"
+              ></span>
+              <span
+                data-testid="test-todo-priority"
+                class="badge badge-priority high"
+                aria-label="Priority High"
+                >High</span
+              >
+            </span>
           </p>
           <p class="meta-row">
             <span class="meta-label">Status</span>
@@ -42,6 +45,20 @@
               aria-live="polite"
               >In Progress</span
             >
+          </p>
+        </section>
+
+        <section
+          data-testid="test-todo-collapsible-section"
+          id="todo-collapsible-section"
+          class="todo-collapsible is-collapsed"
+          aria-label="Task details"
+        >
+          <p data-testid="test-todo-description" id="todo-description">
+            Create a responsive task card with accessible controls, clear
+            status, and a live due-time hint. Make sure the card handles long
+            content gracefully without layout overflow across phone, tablet, and
+            desktop sizes.
           </p>
         </section>
 
@@ -62,6 +79,13 @@
               >Due soon</time
             >
           </p>
+          <p
+            data-testid="test-todo-overdue-indicator"
+            class="overdue-indicator"
+            hidden
+          >
+            Overdue
+          </p>
         </section>
 
         <section class="todo-controls" aria-label="Task controls">
@@ -77,9 +101,33 @@
             >
           </div>
 
+          <div class="status-control-wrap">
+            <label for="task-status-control">Task status</label>
+            <select
+              id="task-status-control"
+              data-testid="test-todo-status-control"
+              aria-label="Task status control"
+            >
+              <option value="Pending">Pending</option>
+              <option value="In Progress" selected>In Progress</option>
+              <option value="Done">Done</option>
+            </select>
+          </div>
+
+          <button
+            data-testid="test-todo-expand-toggle"
+            id="todo-expand-toggle"
+            type="button"
+            aria-expanded="false"
+            aria-controls="todo-collapsible-section"
+          >
+            Expand details
+          </button>
+
           <div class="button-group">
             <button
               data-testid="test-todo-edit-button"
+              id="todo-edit-button"
               type="button"
               aria-label="Edit task"
             >
@@ -93,6 +141,70 @@
               Delete
             </button>
           </div>
+
+          <form
+            data-testid="test-todo-edit-form"
+            id="todo-edit-form"
+            class="edit-form"
+            hidden
+            aria-label="Edit todo task"
+          >
+            <div class="edit-field">
+              <label for="todo-edit-title-input">Title</label>
+              <input
+                data-testid="test-todo-edit-title-input"
+                id="todo-edit-title-input"
+                name="title"
+                type="text"
+              />
+            </div>
+
+            <div class="edit-field">
+              <label for="todo-edit-description-input">Description</label>
+              <textarea
+                data-testid="test-todo-edit-description-input"
+                id="todo-edit-description-input"
+                name="description"
+                rows="4"
+              ></textarea>
+            </div>
+
+            <div class="edit-field">
+              <label for="todo-edit-priority-select">Priority</label>
+              <select
+                data-testid="test-todo-edit-priority-select"
+                id="todo-edit-priority-select"
+                name="priority"
+              >
+                <option value="Low">Low</option>
+                <option value="Medium">Medium</option>
+                <option value="High" selected>High</option>
+              </select>
+            </div>
+
+            <div class="edit-field">
+              <label for="todo-edit-due-date-input">Due date</label>
+              <input
+                data-testid="test-todo-edit-due-date-input"
+                id="todo-edit-due-date-input"
+                name="dueDate"
+                type="datetime-local"
+              />
+            </div>
+
+            <div class="edit-actions">
+              <button data-testid="test-todo-save-button" type="submit">
+                Save
+              </button>
+              <button
+                data-testid="test-todo-cancel-button"
+                id="todo-cancel-button"
+                type="button"
+              >
+                Cancel
+              </button>
+            </div>
+          </form>
         </section>
 
         <section aria-label="Task tags">
