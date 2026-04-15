@@ -2,6 +2,10 @@
   box-sizing: border-box;
 }
 
+[hidden] {
+  display: none !important;
+}
+
 body {
   margin: 0;
   font-family:
@@ -55,9 +59,9 @@ body {
 .meta-row {
   margin: 0;
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
   align-items: center;
-  gap: 1rem;
+  gap: 0.55rem;
 }
 
 .meta-label {

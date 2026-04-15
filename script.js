@@ -2,7 +2,9 @@
 
 const card = document.querySelector('[data-testid="test-todo-card"]');
 const titleEl = document.querySelector('[data-testid="test-todo-title"]');
-const descriptionEl = document.querySelector('[data-testid="test-todo-description"]');
+const descriptionEl = document.querySelector(
+  '[data-testid="test-todo-description"]',
+);
 const priorityEl = document.querySelector('[data-testid="test-todo-priority"]');
 const priorityIndicatorEl = document.querySelector(
   '[data-testid="test-todo-priority-indicator"]',
@@ -21,7 +23,9 @@ const completeToggle = document.querySelector(
 const statusControl = document.querySelector(
   '[data-testid="test-todo-status-control"]',
 );
-const expandToggle = document.querySelector('[data-testid="test-todo-expand-toggle"]');
+const expandToggle = document.querySelector(
+  '[data-testid="test-todo-expand-toggle"]',
+);
 const collapsibleSection = document.querySelector(
   '[data-testid="test-todo-collapsible-section"]',
 );
@@ -44,7 +48,9 @@ const editPrioritySelect = document.querySelector(
 const editDueDateInput = document.querySelector(
   '[data-testid="test-todo-edit-due-date-input"]',
 );
-const cancelButton = document.querySelector('[data-testid="test-todo-cancel-button"]');
+const cancelButton = document.querySelector(
+  '[data-testid="test-todo-cancel-button"]',
+);
 
 const COLLAPSE_THRESHOLD = 140;
 const UPDATE_INTERVAL_MS = 60 * 1000;
@@ -61,6 +67,50 @@ const state = {
 };
 
 let timerId = null;
+
+function getEditFormFocusableElements() {
+  return Array.from(
+    editForm.querySelectorAll(
+      'input, select, textarea, button, [href], [tabindex]:not([tabindex="-1"])',
+    ),
+  ).filter((element) => {
+    if (element.disabled) {
+      return false;
+    }
+
+    if (element.hasAttribute("hidden")) {
+      return false;
+    }
+
+    return true;
+  });
+}
+
+function trapEditFormFocus(event) {
+  if (!state.editing || event.key !== "Tab") {
+    return;
+  }
+
+  const focusable = getEditFormFocusableElements();
+  if (focusable.length === 0) {
+    return;
+  }
+
+  const first = focusable[0];
+  const last = focusable[focusable.length - 1];
+  const active = document.activeElement;
+
+  if (event.shiftKey && active === first) {
+    event.preventDefault();
+    last.focus();
+    return;
+  }
+
+  if (!event.shiftKey && active === last) {
+    event.preventDefault();
+    first.focus();
+  }
+}
 
 function formatDueDate(date) {
   const formatted = new Intl.DateTimeFormat("en-US", {
@@ -99,12 +149,8 @@ function getTimeRemaining(now = new Date()) {
     const hours = Math.floor(diffMs / hourMs) % 24;
     const minutes = Math.max(1, Math.floor(diffMs / minuteMs) % 60);
 
-    if (days >= 2) {
+    if (days >= 1) {
       return { text: `Due in ${pluralize(days, "day")}`, overdue: false };
-    }
-
-    if (days === 1) {
-      return { text: "Due tomorrow", overdue: false };
     }
 
     if (hours >= 1) {
@@ -115,14 +161,28 @@ function getTimeRemaining(now = new Date()) {
   }
 
   const overdueMs = Math.abs(diffMs);
+  const overdueDays = Math.floor(overdueMs / dayMs);
   const overdueHours = Math.floor(overdueMs / hourMs);
 
+  if (overdueDays >= 1) {
+    return {
+      text: `Overdue by ${pluralize(overdueDays, "day")}`,
+      overdue: true,
+    };
+  }
+
   if (overdueHours >= 1) {
-    return { text: `Overdue by ${pluralize(overdueHours, "hour")}`, overdue: true };
+    return {
+      text: `Overdue by ${pluralize(overdueHours, "hour")}`,
+      overdue: true,
+    };
   }
 
   const overdueMinutes = Math.max(1, Math.floor(overdueMs / minuteMs));
-  return { text: `Overdue by ${pluralize(overdueMinutes, "minute")}`, overdue: true };
+  return {
+    text: `Overdue by ${pluralize(overdueMinutes, "minute")}`,
+    overdue: true,
+  };
 }
 
 function toDateTimeLocalValue(date) {
@@ -203,8 +263,13 @@ function render() {
 
   expandToggle.hidden = !collapsible;
   expandToggle.setAttribute("aria-expanded", String(state.expanded));
-  expandToggle.textContent = state.expanded ? "Collapse details" : "Expand details";
-  collapsibleSection.classList.toggle("is-collapsed", collapsible && !state.expanded);
+  expandToggle.textContent = state.expanded
+    ? "Collapse details"
+    : "Expand details";
+  collapsibleSection.classList.toggle(
+    "is-collapsed",
+    collapsible && !state.expanded,
+  );
 
   editForm.hidden = !state.editing;
   editButton.setAttribute("aria-expanded", String(state.editing));
@@ -262,12 +327,19 @@ editButton.addEventListener("click", () => {
 });
 
 deleteButton.addEventListener("click", () => {
-  alert("Delete clicked");
+  if (timerId) {
+    clearInterval(timerId);
+    timerId = null;
+  }
+
+  card.hidden = true;
 });
 
 cancelButton.addEventListener("click", () => {
   closeEditMode();
 });
+
+editForm.addEventListener("keydown", trapEditFormFocus);
 
 editForm.addEventListener("submit", (event) => {
   event.preventDefault();
