@@ -61,7 +61,7 @@ const state = {
     "Create a responsive task card with accessible controls, clear status, and a live due-time hint. Make sure the card handles long content gracefully without layout overflow across phone, tablet, and desktop sizes.",
   priority: "High",
   status: "In Progress",
-  dueDate: new Date("2026-04-16T18:00:00Z"),
+  dueDate: new Date("2026-04-20T18:00:00Z"),
   expanded: false,
   editing: false,
 };
@@ -141,7 +141,7 @@ function getTimeRemaining(now = new Date()) {
   }
 
   if (Math.abs(diffMs) < minuteMs) {
-    return { text: "Due now!", overdue: false };
+    return { text: "Due now!", overdue: diffMs < 0 };
   }
 
   if (diffMs > 0) {
